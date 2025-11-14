@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LyntrixChat Multi-AI Arena</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+
+    <div id="login-screen" class="login-container">
+        <div class="login-card">
+            <h1>LyntrixChat Multi-AI Arena</h1>
+            <p>Bertanya ke ChatGPT, Gemini, & Grok sekaligus. </p>
+            <input type="text" id="username-input" placeholder="Masukkan Nama Anda">
+            <button id="start-chat-btn">Mulai Arena</button>
+        </div>
+    </div>
+
+    <div id="main-app" class="app-container hidden">
+
+        <div class="sidebar">
+            <header class="sidebar-header">
+                <div class="user-info">
+                    <div class="user-avatar" id="sidebar-user-avatar">U</div>
+                    <span class="user-name" id="current-username">User Arena</span>
+                </div>
+                <div class="sidebar-icons">
+                    <button class="icon-btn" id="toggle-theme-btn" title="Mode Gelap/Terang">
+                        <svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zM12 4a8 8 0 0 1 8 8 4 4 0 0 0-4-4 8 8 0 0 1-4 4V4z"></path></svg>
+                    </button>
+                    <button class="icon-btn" id="clear-chat-btn" title="Bersihkan Chat">
+                        <svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M19 6h-7l-2-2H5c-1.1 0-1.99.9-1.99 2L3 18c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H5V8h14v10zM6 10h12v2H6zm0 3h12v2H6z"></path></svg>
+                    </button>
+                </div>
+            </header>
+            
+            <div class="chat-list-container" id="ai-list">
+                </div>
+        </div>
+
+        <div class="chat-room">
+            <header class="chat-header">
+                <div class="chat-avatar multi-avatar">M</div>
+                <div class="chat-details">
+                    <div class="chat-name">Multi-AI Arena</div>
+                    <div class="chat-status" id="arena-status">Siap bertarung 🥊</div>
+                </div>
+            </header>
+
+            <div class="messages-container" id="messages-container">
+                <div class="welcome-message">
+                    <h3>Selamat Datang di Lyntrix Multi-AI Arena!</h3>
+                    <p>Kirim satu pesan, dan saksikan perdebatan seru antara ChatGPT, Gemini, dan Grok.</p>
+                </div>
+                </div>
+
+            <div class="input-bar">
+                <input type="text" id="chat-input" placeholder="Ketik pertanyaan untuk ketiga AI...">
+                <button id="send-btn" class="icon-btn send-btn">
+                    <svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M2.01 21L23 12 2.01 3v8l15 1 5-4.5-5-4.5-15 1z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <audio id="notif-sound" src="/public/sounds/notif.mp3" preload="auto"></audio>
+
+    <script type="module" src="ai/chatgpt.js"></script>
+    <script type="module" src="ai/gemini.js"></script>
+    <script type="module" src="ai/grok.js"></script>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
