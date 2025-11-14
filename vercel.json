@@ -16,8 +16,16 @@
       "dest": "/server.js"
     },
     {
-      "src": "/(.*)",
+      "src": "/public/(.*)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/src/(.*)",
       "dest": "/src/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/src/index.html"
     }
   ]
 }
