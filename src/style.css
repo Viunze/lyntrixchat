@@ -3,11 +3,12 @@
     --bg-primary: #181829;       /* Background Utama */
     --bg-secondary: #27293d;     /* Sidebar & Header */
     --bg-chat: #181829;          /* Chat Background */
-    --bg-input: #3a3f5a;         /* Input Field */
-    --bg-hover: #313349;
-    --text-primary: #f0f0f5;
-    --text-secondary: #a0a0b0;
-    --border-color: #313349;
+    --bg-input: #3a3f5a;         /* Input Field & Bubble AI */
+    --bg-hover: #313349;         /* Hover States */
+    --text-primary: #f0f0f5;     /* Teks Utama */
+    --text-secondary: #a0a0b0;   /* Teks Sekunder/Hints */
+    --border-color: #313349;     /* Garis Pembatas */
+    --accent-green: #2dce89;     /* Status Online/Working */
 
     /* Warna Spesifik AI */
     --color-user: #5e72e4;        /* Biru (User) */
@@ -15,7 +16,6 @@
     --color-gemini: #ffd600;      /* Kuning (Gemini) */
     --color-grok: #a259ff;        /* Ungu (Grok) */
     --color-correction: #e44d5c;  /* Merah (Koreksi) */
-    --color-light-bg: #f8f9fa;    /* Light Mode Background */
 }
 
 /* Light Theme Overrides */
@@ -30,7 +30,7 @@
     --border-color: #d1d1d1;
 }
 
-/* Base Styles */
+/* Base Styles & Global Reset */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -47,7 +47,9 @@ body {
 
 .hidden { display: none !important; }
 
-/* Login Screen */
+/* -------------------------------------- */
+/* LOGIN SCREEN */
+/* -------------------------------------- */
 .login-container {
     display: flex; justify-content: center; align-items: center; height: 100vh;
 }
@@ -60,13 +62,18 @@ body {
 .login-card input {
     width: 100%; padding: 14px 20px; margin: 20px 0; border: 1px solid var(--border-color);
     border-radius: 8px; background-color: var(--bg-input); color: var(--text-primary); outline: none;
+    transition: border-color 0.2s;
 }
+.login-card input:focus { border-color: var(--color-user); }
 .login-card button {
     background-color: var(--color-user); color: white; border: none; padding: 12px 30px;
     border-radius: 8px; cursor: pointer; font-weight: 600; transition: background-color 0.2s;
 }
+.login-card button:hover { background-color: #4e63d3; }
 
-/* Main App Layout */
+/* -------------------------------------- */
+/* MAIN APP LAYOUT & HEADER */
+/* -------------------------------------- */
 .app-container { display: flex; height: 100vh; width: 100vw; }
 .sidebar {
     width: 350px; background-color: var(--bg-secondary); border-right: 1px solid var(--border-color);
@@ -74,11 +81,11 @@ body {
 }
 .chat-room { flex-grow: 1; background-color: var(--bg-chat); display: flex; flex-direction: column; }
 
-/* Sidebar Header */
 .sidebar-header, .chat-header {
     height: 65px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between;
     background-color: var(--bg-secondary); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); z-index: 5;
 }
+
 .user-info { display: flex; align-items: center; gap: 10px; }
 .user-avatar, .chat-avatar {
     width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
@@ -87,10 +94,23 @@ body {
 .user-avatar { background-color: var(--color-user); color: white; }
 .multi-avatar { background-color: var(--accent-green); color: white; }
 .sidebar-icons .icon-btn { color: var(--text-secondary); margin-left: 10px; }
-.sidebar-icons .icon-btn:hover { color: var(--text-primary); background-color: var(--bg-hover); border-radius: 50%; }
+.sidebar-icons .icon-btn:hover { 
+    color: var(--text-primary); 
+    background-color: var(--bg-hover); 
+    border-radius: 50%; 
+    cursor: pointer;
+}
 .user-name { font-weight: 600; }
 
-/* AI List */
+/* Chat Header */
+.chat-details { margin-left: 10px; }
+.chat-header .chat-name { font-weight: 600; }
+.chat-header .chat-status { font-size: 13px; color: var(--text-secondary); }
+#arena-status.working { color: var(--accent-green); }
+
+/* -------------------------------------- */
+/* AI LIST (SIDEBAR) */
+/* -------------------------------------- */
 .chat-list-container { overflow-y: auto; flex-grow: 1; }
 .ai-item {
     display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid var(--border-color);
@@ -99,18 +119,15 @@ body {
 .ai-item:hover { background-color: var(--bg-hover); }
 .ai-info { flex-grow: 1; margin-left: 15px; }
 .ai-name { font-weight: 600; font-size: 16px; }
-.ai-status { font-size: 13px; color: var(--text-secondary); }
+.ai-status { font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; display: inline-block; }
 .status-dot.idle { background-color: var(--text-secondary); }
 .status-dot.thinking { background-color: var(--accent-green); animation: pulse 1.5s infinite; }
 @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 
-/* Chat Header */
-.chat-header .chat-name { font-weight: 600; }
-.chat-header .chat-status { font-size: 13px; color: var(--text-secondary); }
-#arena-status.working { color: var(--accent-green); }
-
-/* Messages Container */
+/* -------------------------------------- */
+/* MESSAGES CONTAINER & BUBBLES */
+/* -------------------------------------- */
 .messages-container {
     flex-grow: 1; overflow-y: auto; padding: 20px 5%;
 }
@@ -119,7 +136,6 @@ body {
 }
 .welcome-message h3 { color: var(--text-primary); margin-bottom: 10px; }
 
-/* Message Bubble */
 .message-row { display: flex; margin-bottom: 15px; }
 .message-row.self { justify-content: flex-end; }
 .message-row.ai { justify-content: flex-start; }
@@ -147,9 +163,9 @@ body {
 
 .message-text { font-size: 15px; line-height: 1.4; }
 
-/* Correction Bubble */
+/* Correction Bubble (Debate System) */
 .correction-message {
-    background-color: #3b2a3a; /* Merah gelap */
+    background-color: rgba(228, 77, 92, 0.15); /* Latar belakang merah tipis */
     border: 1px solid var(--color-correction);
     padding: 8px;
     border-radius: 8px;
@@ -162,7 +178,9 @@ body {
 .message-time { font-size: 10px; margin-top: 5px; display: block; text-align: right; color: var(--text-secondary); }
 .message-row.self .message-time { color: rgba(255, 255, 255, 0.7); }
 
-/* Input Bar */
+/* -------------------------------------- */
+/* INPUT BAR */
+/* -------------------------------------- */
 .input-bar {
     height: 70px; padding: 0 20px; display: flex; align-items: center;
     background-color: var(--bg-secondary); box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
