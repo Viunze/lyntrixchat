@@ -14,9 +14,8 @@ const __dirname = dirname(__filename);
 app.use(cors());
 app.use(express.json());
 
-// Serving Static Files (Untuk production di Vercel, static files dihandle Vercel. 
-// Ini hanya untuk local testing jika Anda ingin menjalankan server.js secara lokal.)
-app.use(express.static(join(__dirname, 'src'))); 
+// Serving Static Files (Ini penting agar Vercel bisa menemukan file di /src dan /public)
+app.use('/src', express.static(join(__dirname, 'src'))); 
 app.use('/public', express.static(join(__dirname, 'public')));
 
 
@@ -73,14 +72,16 @@ app.post("/api/gemini", async (req, res) => {
 });
 
 // ========== PROXY GROK (Menggunakan Placeholder Endpoint) ===========
-// Karena endpoint GROK X.ai tidak tersedia publik, kita buat endpoint dummy.
 app.post("/api/grok", async (req, res) => {
   if (!process.env.GROK_KEY) {
-      // Menggunakan delay untuk simulasi response
+      // Menggunakan delay untuk simulasi response jika key tidak ada
       await new Promise(resolve => setTimeout(resolve, 1500)); 
       
       const { message, system_prompt } = req.body;
-      const dummyResponse = `Yo, ${system_prompt.match(/\[(\w+)\]/)[1]}! Gue Grok. Jadi, ${message.split(' ').slice(0, 3).join(' ')}? Santai, jangan serius amat. Mending ngopi.`;
+      const personalityMatch = system_prompt.match(/\[(\w+)\]/);
+      const personality = personalityMatch ? personalityMatch[1] : 'Bos';
+
+      const dummyResponse = `Yo, ${personality}! Grok di sini. Maap nih, API key belum diset, jadi gue jawab ngasal dulu ya: "${message.split(' ').slice(0, 3).join(' ')}?" Santai, jangan serius amat.`;
 
       return res.json(dummyResponse);
   }
@@ -114,7 +115,7 @@ app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'src', 'index.html'));
 });
 
-// Tambahkan catch-all handler untuk Vercel jika rute tidak cocok
+// Final fallback untuk file-file di /src jika rute sebelumnya tidak menangkapnya
 app.get('/src/:file', (req, res) => {
     res.sendFile(join(__dirname, 'src', req.params.file));
 });
